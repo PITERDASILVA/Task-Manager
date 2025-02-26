@@ -23,3 +23,11 @@ class Task:
         tasks = cursor.fetchall()
         conn.close()
         return tasks
+    
+    @staticmethod
+    def delete(task_id):
+        conn = sqlite3.connect('task_manager.db')
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM tasks WHERE id = ?", (task_id,))
+        conn.commit()
+        conn.close()

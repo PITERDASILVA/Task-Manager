@@ -19,3 +19,11 @@ class Category:
         categories = cursor.fetchall()
         conn.close()
         return categories
+    
+    @staticmethod
+    def delete(category_id):
+        conn = sqlite3.connect('task_manager.db')
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM categories WHERE id = ?", (category_id,))
+        conn.commit()   
+        conn.close()    

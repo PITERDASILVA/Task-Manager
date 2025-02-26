@@ -5,10 +5,7 @@ class ConsoleView:
             print("Not tasks found")
             return
         for task in tasks:
-            print(f"Tasks: {task[1]}\nDescription:
-                  {task[2]}\nCategory:
-                  {task[3]}\nDue State: 
-                  {task[4]}\n")
+            print(f'Tasks: {task[1]}\nDescription: {task[2]}\nCategory:{task[3]}\nDue State: {task[4]}\n')
     
     @staticmethod
     def display_categories(categories):
