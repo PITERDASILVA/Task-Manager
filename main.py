@@ -3,6 +3,29 @@ from view_model.task_viewmodel import TaskViewModel
 from views.console_view import ConsoleView
 from models.category import Category
 
+def delete_task(task_viewmodel):
+    task = task_viewmodel.get_all_tasks()
+    ConsoleView.display_task(task)
+
+    try: 
+        task_id = int(input("Enter task id:" )) 
+        task_viewmodel.delete_task(task_id)
+        print("Task deleted")
+    except ValueError:
+        print("Invalid task id")
+
+
+def delete_category(task_viewmodel):
+    category_id = input("Enter category id:")
+    ConsoleView.display_categories(category_id)
+
+    try:
+        category_id = int(input("Enter category id: "))
+        task_viewmodel.delete_category(category_id)
+        print("Category deleted")
+    except ValueError:
+        print("Invalid category id")
+
 def menu():
     print("\nTask Manager")
     print("1. Add task")
@@ -52,16 +75,11 @@ def main():
 
             elif option == 5:
                 task_id = int(input("Enter task id: ")) 
-                task_view_model.delete_task(task_id)
-                print("Task deleted")
+                delete_task(task_view_model)
             
             elif option == 6:
-                category_id = input("Enter category id: ")
-                if category_id in Category.get_all():
-                    task_view_model.delete_category(category_id)
-                    print("Category deleted")
-                else:
-                    print("Category not found")
+                category_id = int(input("Enter category id: "))
+                delete_category(task_view_model)
             
             elif option == 7:
                 break

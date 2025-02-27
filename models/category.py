@@ -25,5 +25,6 @@ class Category:
         conn = sqlite3.connect('task_manager.db')
         cursor = conn.cursor()
         cursor.execute("DELETE FROM categories WHERE id = ?", (category_id,))
+        cursor.execute("DELETE FROM tasks WHERE category_id = ?", (category_id,))
         conn.commit()   
         conn.close()    
