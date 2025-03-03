@@ -1,11 +1,15 @@
 import sqlite3
+import os
+
 
 class Category: 
     def __init__(self, name):
         self.name = name
 
     def save(self):
-        conn = sqlite3.connect('task_manager.db')
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        db_path = os.path.join(base_dir, 'task_manager.db')
+        conn = sqlite3.connect(db_path)
         cursor = conn.cursor()         
         cursor.execute("INSERT INTO categories (name) VALUES (?)", (self.name,))
         conn.commit()       
@@ -13,7 +17,9 @@ class Category:
 
     @staticmethod
     def get_all():
-        conn = sqlite3.connect('task_manager.db')
+        base_dir = os.path.dirname(os.path.abspath(__file__))   
+        db_path = os.path.join(base_dir, 'task_manager.db')
+        conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM categories")
         categories = cursor.fetchall()
@@ -21,10 +27,11 @@ class Category:
         return categories
     
     @staticmethod
-    def delete(category_id):
-        conn = sqlite3.connect('task_manager.db')
+    def delete_by_name(category_name):
+        base_dir = os.path.dirname(os.path.abspath(__file__))   
+        db_path = os.path.join(base_dir, 'task_manager.db')
+        conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
-        cursor.execute("DELETE FROM categories WHERE id = ?", (category_id,))
-        cursor.execute("DELETE FROM tasks WHERE category_id = ?", (category_id,))
+        cursor.execute("DELETE FROM categories WHERE id = ?", (category_name,))
         conn.commit()   
         conn.close()    

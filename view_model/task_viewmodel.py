@@ -4,10 +4,10 @@ from models.category import Category
 class TaskViewModel:
     def __init__(self):
         self.tasks = Task.get_all()
-        self.categories = Task.get_all()
+        self.categories = Category.get_all()
 
-    def add_task(self, title, description, category_id, due_state):
-        task = Task(title, description, category_id, due_state)
+    def add_task(self, title, description, category_name, due_state):
+        task = Task(title, description, category_name, due_state)
         task.save()
         self.tasks = Task.get_all()
     
@@ -20,8 +20,8 @@ class TaskViewModel:
         category.save()
         self.categories = Category.get_all()
 
-    def delete_category(self, category_id):
-        Category.delete(category_id)
+    def delete_category(self, category_name):
+        Category.delete_by_name(category_name)
         self.categories = Category.get_all()
     
 

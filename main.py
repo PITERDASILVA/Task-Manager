@@ -1,7 +1,6 @@
 from models.database import initialize_db
 from view_model.task_viewmodel import TaskViewModel
 from views.console_view import ConsoleView
-from models.category import Category
 
 def delete_task(task_viewmodel):
     task = task_viewmodel.get_all_tasks()
@@ -16,12 +15,12 @@ def delete_task(task_viewmodel):
 
 
 def delete_category(task_viewmodel):
-    category_id = input("Enter category id:")
-    ConsoleView.display_categories(category_id)
+    categories = task_viewmodel.get_all_categories()
+    ConsoleView.display_categories(categories)
 
     try:
-        category_id = int(input("Enter category id: "))
-        task_viewmodel.delete_category(category_id)
+        category_name = input("Enter category id: ")
+        task_viewmodel.delete_category(category_name)
         print("Category deleted")
     except ValueError:
         print("Invalid category id")
@@ -53,13 +52,18 @@ def main():
         try:
             menu()
             option = int(input("Enter option: "))
-            if option == 1:
-                title = input("Enter title: ")
-                description = input("Enter description: ")
-                category_id = int(input("Enter category id: "))
-                due_state = input("Enter due state: ")
-                task_view_model.add_task(title, description, category_id, due_state)
-                print("Task added")
+            if option == 1: 
+                category_name = input("Enter category name: ")
+                if category_name.lower() == category_name:
+                    title = input("Enter title: ")
+                    description = input("Enter description: ")
+                    due_state = input("Enter due state: ")
+                    task_view_model.add_task(title, description, category_name, due_state)
+                    print("Task added")
+                else: 
+                    print("Please add a category")
+                    name = input("Enter category name: ")
+                    task_view_model.add_category(name)
             
             elif option == 2:
                 tasks = task_view_model.get_all_tasks()
@@ -74,11 +78,9 @@ def main():
                 ConsoleView.display_categories(categories)
 
             elif option == 5:
-                task_id = int(input("Enter task id: ")) 
                 delete_task(task_view_model)
             
             elif option == 6:
-                category_id = int(input("Enter category id: "))
                 delete_category(task_view_model)
             
             elif option == 7:
